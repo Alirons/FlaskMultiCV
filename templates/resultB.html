@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Clustering Result</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            font-weight: 500;
+        }
+        .data {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        .data th, .data td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .data th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        .data td {
+            text-align: center;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            margin: 30px 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+            transition: all 0.2s ease-in-out;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0,123,255,0.5);
+        }
+        .separated-images {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Pixels Clustering Result</h1>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename=kmeans_image) }}" alt="KMeans Clustering Image" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h3>Cluster Statistics</h3>
+                <div class="table-responsive">
+                    {{ table|safe }}
+                </div>
+            </div>
+        </div>
+        <div class="separated-images">
+            <h3>Individual Cluster Visualizations</h3>
+            <img src="{{ url_for('static', filename=spr_kmeans_image) }}" alt="Separated Cluster Images" class="img-fluid">
+        </div>
+        <button class="button" onclick="location.href='/'">Upload New Image</button>
+    </div>
+</body>
+</html>

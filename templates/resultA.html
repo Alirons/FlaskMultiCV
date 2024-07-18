@@ -1,0 +1,244 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Analysis Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+            position: relative; /* Ensure positioning context for the download button */
+        }
+        h1 {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            font-weight: 500;
+        }
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+        .tab button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+            transition: all 0.2s ease-in-out;
+        }
+        .tab button:hover {
+            opacity: 0.8;
+        }
+        .tab button.active {
+            box-shadow: 0 6px 12px rgba(0,123,255,0.5);
+        }
+        .tab button#RGBTab {
+            background-color: #ff0000; /* 红色背景 */
+        }
+        .tab button#HSVTab {
+            background-color: #ffcc00; /* 黄色背景 */
+        }
+        .tab button#LabTab {
+            background-color: #13cd23;
+        }
+        .tab button#LBPTab {
+            background-color: #00bfff; /* 蓝色背景 */
+        }
+        .tab button#EDITab {
+            background-color: #b14604;
+        }
+        .tab button#GLCMTab {
+            background-color: #ec37b9;
+        }
+        .tab button#SIFTTab {
+            background-color: #7c08e1;
+        }
+        .tab button#HOGTab {
+            background-color: #e0a709;
+        }
+        .tab-content {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+        .image-container {
+            margin: 20px auto;
+            max-width: 80%;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+            transition: all 0.2s ease-in-out;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0,123,255,0.5);
+        }
+        .tab-container {
+            margin-bottom: 20px;
+        }
+        .download-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        .download-button i {
+            font-size: 24px;
+            color: #007bff;
+            transition: color 0.2s ease-in-out;
+        }
+        .download-button:hover i {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Analysis Results for {{ filename }}</h1>
+
+    <a href="" download id="downloadButton" class="button download-button">
+        <i class="fas fa-arrow-down"></i>
+    </a>
+
+    <div class="tab-container">
+        <div class="tab">
+            <button class="tablinks" id="RGBTab" onclick="openTab(event, 'RGB')">RGB Histogram</button>
+            <button class="tablinks" id="HSVTab" onclick="openTab(event, 'HSV')">HSV Histogram</button>
+            <button class="tablinks" id="LabTab" onclick="openTab(event, 'Lab')">Lab Histogram</button>
+        </div>
+        <div class="tab">
+            <button class="tablinks" id="LBPTab" onclick="openTab(event, 'LBP')">LBP Histogram</button>
+            <button class="tablinks" id="EDITab" onclick="openTab(event, 'EDI')">Edge Detection Image</button>
+        </div>
+        <div class="tab">
+            <button class="tablinks" id="GLCMTab" onclick="openTab(event, 'GLCM')">Gray Level Co-occurrence Matrix</button>
+        </div>
+        <div class="tab">
+            <button class="tablinks" id="SIFTTab" onclick="openTab(event, 'SIFT')">Scale-Invariant Feature Transform</button>
+        </div>
+        <div class="tab">
+            <button class="tablinks" id="HOGTab" onclick="openTab(event, 'HOG')">Histogram of Oriented Gradients</button>
+        </div>
+    </div>
+
+    <div id="RGB" class="tab-content" style="display: block;">
+        <div class="image-container">
+            <img src="{{ url_for('static', filename=rgb_image) }}" alt="RGB Histogram">
+        </div>
+    </div>
+
+    <div id="HSV" class="tab-content">
+        <div class="image-container">
+            <img src="{{ url_for('static', filename=hsv_image) }}" alt="HSV Histogram">
+        </div>
+    </div>
+
+    <div id="Lab" class="tab-content">
+        <div class="image-container">
+            <img src="{{ url_for('static', filename=lab_image) }}" alt="Lab Histogram">
+        </div>
+    </div>
+
+    <div id="LBP" class="tab-content">
+        <div class="image-container">
+            <img src="{{ url_for('static', filename=lbp_image) }}" alt="LBP Histogram">
+        </div>
+    </div>
+
+    <div id="EDI" class="tab-content">
+        <div class="image-container">
+            <img src="{{ url_for('static', filename=edi_image) }}" alt="Edge Detection Image">
+        </div>
+    </div>
+
+    <div id="GLCM" class="tab-content">
+        <div class="image-container">
+            <img src="{{ url_for('static', filename=glcm_image) }}" alt="Gray Level Co-occurrence Matrix">
+        </div>
+    </div>
+
+    <div id="SIFT" class="tab-content">
+        <div class="image-container">
+            <img src="{{ url_for('static', filename=sift_image) }}" alt="Scale-Invariant Feature Transform">
+        </div>
+    </div>
+
+    <div id="HOG" class="tab-content">
+        <div class="image-container">
+            <img src="{{ url_for('static', filename=hog_image) }}" alt="Histogram of Oriented Gradients">
+        </div>
+    </div>
+
+    <button class="button" onclick="location.href='/'">Upload New Image</button>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+            updateDownloadLink(tabName);
+        }
+
+        function updateDownloadLink(tabName) {
+            var downloadButton = document.getElementById('downloadButton');
+            if (tabName === 'RGB') {
+                downloadButton.href = "{{ url_for('static', filename=rgb_image) }}";
+                downloadButton.download = "{{ rgb_image.split('/').pop() }}"; // 从文件路径获取文件名
+            } else if(tabName === 'HSV') {
+                downloadButton.href = "{{ url_for('static', filename=hsv_image) }}";
+                downloadButton.download = "{{ hsv_image.split('/').pop() }}"; // 从文件路径获取文件名
+            } else if(tabName === 'Lab') {
+                downloadButton.href = "{{ url_for('static', filename=lab_image) }}";
+                downloadButton.download = "{{ lab_image.split('/').pop() }}"; // 从文件路径获取文件名
+            } else if(tabName === 'LBP') {
+                downloadButton.href = "{{ url_for('static', filename=lbp_image) }}";
+                downloadButton.download = "{{ lbp_image.split('/').pop() }}"; // 从文件路径获取文件名
+            } else if(tabName === 'EDI') {
+                downloadButton.href = "{{ url_for('static', filename=edi_image) }}";
+                downloadButton.download = "{{ edi_image.split('/').pop() }}"; // 从文件路径获取文件名
+            } else if(tabName === 'GLCM') {
+                downloadButton.href = "{{ url_for('static', filename=glcm_image) }}";
+                downloadButton.download = "{{ glcm_image.split('/').pop() }}"; // 从文件路径获取文件名
+            } else if(tabName === 'SIFT') {
+                downloadButton.href = "{{ url_for('static', filename=sift_image) }}";
+                downloadButton.download = "{{ sift_image.split('/').pop() }}"; // 从文件路径获取文件名
+            } else if(tabName === 'HOG') {
+                downloadButton.href = "{{ url_for('static', filename=hog_image) }}";
+                downloadButton.download = "{{ hog_image.split('/').pop() }}"; // 从文件路径获取文件名
+            }
+        }
+
+        updateDownloadLink('RGB');
+    </script>
+</body>
