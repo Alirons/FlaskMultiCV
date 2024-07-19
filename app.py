@@ -132,7 +132,7 @@ def cluster_pixels(filename):
 def classify_image(filename):
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     predicted_class = predict_the_image(file_path, ModelCONFIG.device)
-    categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6', 'Category 7', 'Category 8', 'Category 9', 'Category 10']
+    categories = ['Category 0', 'Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6', 'Category 7', 'Category 8', 'Category 9', 'Category 10']
     predicted_category = categories[predicted_class]
     return render_template('resultC.html', filename=filename, prediction=predicted_category)
 
